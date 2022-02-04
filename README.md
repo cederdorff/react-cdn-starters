@@ -6,5 +6,7 @@
 
 [react-cdn-spa-template](https://cederdorff.github.io/react-cdn-starters/react-cdn-spa-template)
 
+[react-cdn-template] (https://cederdorff.github.io/react-cdn-starters/react-cdn-template)
+
 
 
