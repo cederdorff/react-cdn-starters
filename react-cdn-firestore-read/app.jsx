@@ -2,7 +2,7 @@ import * as React from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/react-router-dom";
 import { usersRef } from "./firebase-config.js";
-import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+import { onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 
 // ====== PAGES ====== //
 
