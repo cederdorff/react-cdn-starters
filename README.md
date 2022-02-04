@@ -1,3 +1,3 @@
 # react-cdn-starters
 
-(https://pages.github.com/)
+/react-cdn-firestore-crud
