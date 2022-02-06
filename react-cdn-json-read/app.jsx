@@ -87,8 +87,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <HashRouter>
-        <App />
-    </HashRouter>,
+    <React.StrictMode>
+        <HashRouter>
+            <App />
+        </HashRouter>
+    </React.StrictMode>,
     document.querySelector("#root")
 );

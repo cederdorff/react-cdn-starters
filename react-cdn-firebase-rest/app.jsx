@@ -13,11 +13,7 @@ function UsersPage() {
         const url = "https://user-app-289f1.firebaseio.com/users.json";
         const response = await fetch(url);
         const data = await response.json();
-        const usersArray = [];
-        for (const key in data) {
-            const element = data[key];
-            usersArray.push({ id: key, ...element });
-        }
+        const usersArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
         setUsers(usersArray);
     }, []);
 
@@ -92,8 +88,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <HashRouter>
-        <App />
-    </HashRouter>,
+    <React.StrictMode>
+        <HashRouter>
+            <App />
+        </HashRouter>
+    </React.StrictMode>,
     document.querySelector("#root")
 );
