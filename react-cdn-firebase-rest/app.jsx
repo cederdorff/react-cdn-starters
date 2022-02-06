@@ -1,17 +1,46 @@
+// React Imports
 import * as React from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/react-router-dom";
 
 // ====== PAGES ====== //
-function Home() {
+
+// Users Page (Home Page)
+function UsersPage() {
+    const [users, setUsers] = React.useState([]);
+
+    React.useEffect(async () => {
+        const url = "https://user-app-289f1.firebaseio.com/users.json";
+        const response = await fetch(url);
+        const data = await response.json();
+        const usersArray = [];
+        for (const key in data) {
+            const element = data[key];
+            usersArray.push({ id: key, ...element });
+        }
+        setUsers(usersArray);
+    }, []);
+
     return (
         <section className="page">
-            <h1>Home Page</h1>
+            <h1>Users</h1>
+            <section className="grid-container">
+                {users.map(user => (
+                    <article>
+                        <img src={user.image} alt={user.name} />
+                        <h3>{user.name}</h3>
+                        <p>
+                            <a href={`mailto:${user.mail}`}>{user.mail}</a>
+                        </p>
+                    </article>
+                ))}
+            </section>
         </section>
     );
 }
 
-function About() {
+// About Page
+function AboutPage() {
     return (
         <section className="page">
             <h1>About Page</h1>
@@ -19,7 +48,8 @@ function About() {
     );
 }
 
-function Clients() {
+// Clients Page
+function ClientsPage() {
     return (
         <section className="page">
             <h1>Clients Page</h1>
@@ -28,6 +58,8 @@ function Clients() {
 }
 
 // ====== COMPONENTS ====== //
+
+// Navbar Componment
 function Nav() {
     return (
         <nav>
@@ -45,14 +77,15 @@ function Nav() {
 }
 
 // ====== APP ====== //
+
 function App() {
     return (
         <main>
             <Nav />
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/clients" element={<Clients />} />
+                <Route path="/" element={<UsersPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/clients" element={<ClientsPage />} />
             </Routes>
         </main>
     );
