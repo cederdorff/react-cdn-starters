@@ -1,0 +1,88 @@
+{
+    "users": {
+        "1": {
+            "image": "https://www.baaa.dk/media/u4gorzsd/birgitte-kirk-iversen2.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921541630000&format=webp",
+            "mail": "bki@eaaa.dk",
+            "name": "Birgitte Kirk Iversen",
+            "phone": "72286316",
+            "title": "Senior Lecturer"
+        },
+        "2": {
+            "image": "https://www.baaa.dk/media/b5ahrlra/maria-louise-bendixen.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921650330000&format=webp",
+            "mail": "mlbe@eaaa.dk",
+            "name": "Maria Louise Bendixen",
+            "phone": "72286345",
+            "title": "Senior Lecturer"
+        },
+        "3": {
+            "image": "https://www.baaa.dk/media/3zihz21l/kim-elkjaer-marcher-jepsen.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921620830000&format=webp",
+            "mail": "kije@eaaa.dk",
+            "name": "Kim Elkjær Marcher-Jepsen",
+            "phone": "7228 6325",
+            "title": "Senior Lecturer"
+        },
+        "4": {
+            "image": "https://www.baaa.dk/media/devlvvgj/rasmus-cederdorff.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921695570000&format=webp",
+            "mail": "race@eaaa.dk",
+            "name": "Rasmus Cederdorff",
+            "phone": "72286318",
+            "title": "Senior Lecturer"
+        },
+        "5": {
+            "image": "https://www.eaaa.dk/media/bdojel41/dan-okkels-brendstrup.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921559630000&format=webp",
+            "mail": "dob@eaaa.dk",
+            "name": "Dan Okkels Brendstrup",
+            "phone": "72286327",
+            "title": "Lecturer"
+        },
+        "6": {
+            "image": "https://www.eaaa.dk/media/lxzcybme/kasper-topp.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921618200000&format=webp",
+            "mail": "kato@eaaa.dk",
+            "name": "Kasper Fischer Topp",
+            "phone": "72286328",
+            "title": "Lecturer"
+        },
+        "7": {
+            "image": "https://www.eaaa.dk/media/14qpfeq4/line-skj%C3%B8dt.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921638700000&format=webp",
+            "mail": "lskj@eaaa.dk",
+            "name": "Line Skjødt",
+            "phone": "72286336",
+            "title": "Senior Lecturer & Internship Coordinator"
+        },
+        "8": {
+            "image": "https://www.eaaa.dk/media/oayjq02h/martin-n%C3%B8hr.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921658800000&format=webp",
+            "mail": "mnor@eaaa.dk",
+            "name": "Martin Aagaard Nøhr",
+            "phone": "72286320",
+            "title": "Lecturer"
+        },
+        "9": {
+            "image": "https://www.eaaa.dk/media/opybpteb/jes-arbov.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921604700000&format=webp",
+            "mail": "jear@eaaa.dk",
+            "name": "Jes Arbov",
+            "phone": "72283264",
+            "title": "Lecturer"
+        },
+        "10": {
+            "image": "https://www.baaa.dk/media/uqxhqlzq/anne-storm-rasmussen.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921534400000&format=webp",
+            "mail": "anst@eaaa.dk",
+            "name": "Anne Storm Rasmussen",
+            "phone": "72286001",
+            "title": "Rector"
+        },
+        "11": {
+            "image": "https://www.baaa.dk/media/5buh1xeo/anne-kirketerp.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921531600000&format=webp",
+            "mail": "anki@eaaa.dk",
+            "name": "Anne Kirketerp",
+            "phone": "72286380",
+            "title": "Head of Department"
+        },
+        "12": {
+            "image": "https://www.baaa.dk/media/hi4lv5hw/morten-bonderup.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921669800000&format=webp",
+            "mail": "moab@eaaa.dk",
+            "name": "Morten Algy Bonderup",
+            "phone": "72286339",
+            "title": "Senior Lecturer"
+        }
+    }
+}
