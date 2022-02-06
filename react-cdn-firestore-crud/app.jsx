@@ -1,12 +1,12 @@
 import * as React from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
-import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "https://cdn.skypack.dev/react-router-dom";
+import { HashRouter, Routes, Route, NavLink, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import { usersRef } from "./firebase-config.js";
 import { onSnapshot, doc, updateDoc, deleteDoc, addDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 
 // ====== PAGES ====== //
 
-function UsersPage() {
+function UsersPage({ showLoader }) {
     const [users, setUsers] = React.useState([]);
 
     React.useEffect(() => {
@@ -15,6 +15,7 @@ function UsersPage() {
                 return { ...doc.data(), id: doc.id };
             });
             setUsers(users);
+            showLoader(false);
         });
 
         return () => cleanUp();
@@ -32,10 +33,11 @@ function UsersPage() {
     );
 }
 
-function CreatePage() {
+function CreatePage({ showLoader }) {
     const navigate = useNavigate();
 
     async function createUser(newUser) {
+        showLoader(true);
         await addDoc(usersRef, newUser);
         navigate("/");
     }
@@ -47,7 +49,7 @@ function CreatePage() {
     );
 }
 
-function UpdatePage() {
+function UpdatePage({ showLoader }) {
     const [user, setUser] = React.useState({ name: "", mail: "", img: "img/user-placeholder.jpg" });
     const params = useParams();
     const navigate = useNavigate();
@@ -63,12 +65,14 @@ function UpdatePage() {
     }, [userId]);
 
     async function saveUser(userObject) {
+        showLoader(true);
         const docRef = doc(usersRef, userId);
         await updateDoc(docRef, userObject);
         navigate("/");
     }
 
     async function deleteUser() {
+        showLoader(true);
         const userRef = doc(usersRef, userId);
         await deleteDoc(userRef);
         navigate("/");
@@ -85,19 +89,6 @@ function UpdatePage() {
 }
 
 // ====== COMPONENTS ====== //
-
-function Nav() {
-    return (
-        <nav>
-            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
-                Users
-            </NavLink>
-            <NavLink to="/create" className={({ isActive }) => (isActive ? "active" : "")}>
-                Create
-            </NavLink>
-        </nav>
-    );
-}
 
 function UserItem({ user }) {
     const navigate = useNavigate();
@@ -170,17 +161,42 @@ function UserForm({ user, handleSubmit }) {
     );
 }
 
+function Loader({ show }) {
+    return (
+        <section className={show ? "loader" : "loader hide"}>
+            <section className="spinner"></section>
+        </section>
+    );
+}
+
+function Nav() {
+    return (
+        <nav>
+            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+                Users
+            </NavLink>
+            <NavLink to="/create" className={({ isActive }) => (isActive ? "active" : "")}>
+                Create
+            </NavLink>
+        </nav>
+    );
+}
+
 // ====== APP ====== //
 
 function App() {
+    const [loading, setLoading] = React.useState(true);
+
     return (
         <main>
             <Nav />
             <Routes>
-                <Route path="/" element={<UsersPage />} />
-                <Route path="/create" element={<CreatePage />} />
-                <Route path="/users/:userId" element={<UpdatePage />} />
+                <Route path="/" element={<UsersPage showLoader={setLoading} />} />
+                <Route path="/users/:userId" element={<UpdatePage showLoader={setLoading} />} />
+                <Route path="/create" element={<CreatePage showLoader={setLoading} />} />
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            <Loader show={loading} />
         </main>
     );
 }
