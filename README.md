@@ -1,5 +1,7 @@
 # react-cdn-starters
 
+[react-cdn-firebase-rest](https://cederdorff.github.io/react-cdn-starters/react-cdn-firebase-rest)
+
 [react-cdn-firestore-crud](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-crud)
 
 [react-cdn-firestore-read](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-crud)
