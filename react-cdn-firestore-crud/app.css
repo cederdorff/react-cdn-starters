@@ -205,7 +205,7 @@ input {
     margin: auto;
     display: block;
     cursor: pointer;
-    background-image: url("./user-placeholder.jpg");
+    background-image: url("./img/user-placeholder.jpg");
 }
 
 form .file-input {
