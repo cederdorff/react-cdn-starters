@@ -9,9 +9,4 @@ function App() {
     return <Greeting name="world" />;
 }
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.querySelector("#root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
