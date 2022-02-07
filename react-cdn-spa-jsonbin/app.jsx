@@ -1,12 +1,7 @@
-import * as React from "https://cdn.skypack.dev/react";
-import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
-import { HashRouter, Routes, Route, NavLink, useNavigate } from "https://cdn.skypack.dev/react-router-dom";
-import { createUser, getUsers } from "./userService.js";
-
-const _headers = {
-    "X-Master-Key": "$2b$10$Uf1lbMtIPrrWeneN3Wz6JuDcyBuOz.1LbHiUg32QexCCJz3nOpoS2",
-    "Content-Type": "application/json"
-};
+import React from "https://cdn.skypack.dev/react";
+import ReactDOM from "https://cdn.skypack.dev/react-dom";
+import { HashRouter, Routes, Route, NavLink, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
+import * as UserService from "./services/UserService.js";
 
 // ====== User Page Component ====== //
 function Users() {
@@ -14,14 +9,13 @@ function Users() {
     const [searchValue, setSearchValue] = React.useState("");
 
     React.useEffect(async () => {
-        setUsers(await getUsers());
+        setUsers(await UserService.getUsers());
     }, []);
 
     const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchValue));
 
     return (
         <section className="page">
-            <h1>Users</h1>
             <SearchBar setValue={setSearchValue} />
             <section className="grid-container">
                 {filteredUsers.map(user => (
@@ -62,13 +56,12 @@ function Create() {
     const navigate = useNavigate();
 
     function createEvent(newUser) {
-        createUser(newUser);
-
-        // navigate("/");
+        UserService.createUser(newUser);
+        navigate("/");
     }
     return (
         <section className="page">
-            <h1>Create Page</h1>
+            <h1>Create New User</h1>
             <UserForm handleSubmit={createEvent} />
         </section>
     );
@@ -107,8 +100,42 @@ function UserForm({ user, handleSubmit }) {
             <input type="email" value={formData.mail} onChange={handleChange} name="mail" placeholder="Type mail" />
             <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
             <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/user-placeholder.jpg")} />
-            <button>Save User</button>
+            <button>Save</button>
         </form>
+    );
+}
+
+function Update() {
+    const [user, setUser] = React.useState({});
+    const params = useParams();
+    const navigate = useNavigate();
+    const userId = params.userId;
+
+    React.useEffect(async () => {
+        setUser(await UserService.getUser(userId));
+    }, [userId]);
+
+    async function saveUser(userToUpdate) {
+        UserService.updateUser(userToUpdate);
+        navigate("/");
+    }
+
+    async function deleteUser() {
+        const confirmDelete = confirm(`Do you want to delete user, ${user.name}?`);
+        if (confirmDelete) {
+            UserService.deleteUser(userId);
+            navigate("/");
+        }
+    }
+
+    return (
+        <section className="page">
+            <h1>Update User</h1>
+            <UserForm user={user} handleSubmit={saveUser} />
+            <button className="btn-delete" onClick={deleteUser}>
+                Delete User
+            </button>
+        </section>
     );
 }
 
@@ -133,7 +160,9 @@ function App() {
             <Nav />
             <Routes>
                 <Route path="/" element={<Users />} />
+                <Route path="/users/:userId" element={<Update />} />
                 <Route path="/create" element={<Create />} />
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </main>
     );
