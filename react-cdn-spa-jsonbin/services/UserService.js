@@ -6,6 +6,7 @@ const _headers = {
     "Content-Type": "application/json"
 };
 
+// ========== READ ========== //
 async function fetchUsers() {
     const url = _baseUrl + "/latest"; // make sure to get the latest version
     const response = await fetch(url, {
@@ -33,6 +34,7 @@ export async function getUser(id) {
     return _users.find(user => user.id == id);
 }
 
+// ========== CREATE ========== //
 export async function createUser({ name, mail, image }) {
     const userId = Date.now();
     const newUser = {
@@ -45,6 +47,7 @@ export async function createUser({ name, mail, image }) {
     await updateJSONBIN();
 }
 
+// ========== UPDATE ========== //
 export async function updateUser({ id, name, mail, image }) {
     const userToUpdate = _users.find(user => user.id == id);
     userToUpdate.name = name;
@@ -53,11 +56,13 @@ export async function updateUser({ id, name, mail, image }) {
     await updateJSONBIN();
 }
 
+// ========== DELETE ========== //
 export async function deleteUser(id) {
     _users = _users.filter(user => user.id != id);
     await updateJSONBIN(_users);
 }
 
+// ========== UPDATE JSONBIN ========== //
 /**
  * Updates the data source on jsonbin with a given users arrays
  */
@@ -70,4 +75,5 @@ async function updateJSONBIN() {
     });
     // waiting for the result
     const result = await response.json(); // the new updated users array from jsonbin
+    _users = result.record;
 }
