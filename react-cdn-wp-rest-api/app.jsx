@@ -35,7 +35,7 @@ function PostItem({ post }) {
     const navigate = useNavigate();
 
     function handleClick() {
-        navigate(`${post.id}`);
+        navigate(`${post.slug}`);
     }
 
     function getFeaturedImageUrl() {
@@ -115,14 +115,14 @@ function News() {
 function PostDetail() {
     const [post, setPost] = React.useState({});
     const params = useParams();
-    const postId = params.postId;
+    const postSlug = params.postSlug;
 
     React.useEffect(async () => {
-        const url = `https://api.cederdorff.com/wp-json/wp/v2/posts/${postId}?_embed`;
+        const url = `https://api.cederdorff.com/wp-json/wp/v2/posts?slug=${postSlug}&_embed`;
         const response = await fetch(url);
         const data = await response.json();
-        setPost(data);
-    }, [postId]);
+        setPost(data[0]);
+    }, [postSlug]);
 
     function getFeaturedImageUrl() {
         let imageUrl = "";
@@ -165,11 +165,11 @@ function App() {
             <Nav />
             <Routes>
                 <Route path="/posts" element={<Posts />} />
-                <Route path="/posts/:postId" element={<PostDetail />} />
+                <Route path="/posts/:postSlug" element={<PostDetail />} />
                 <Route path="/clients" element={<Clients />} />
-                <Route path="/clients/:postId" element={<PostDetail />} />
+                <Route path="/clients/:postSlug" element={<PostDetail />} />
                 <Route path="/news" element={<News />} />
-                <Route path="/news/:postId" element={<PostDetail />} />
+                <Route path="/news/:postSlug" element={<PostDetail />} />
                 <Route path="*" element={<Navigate to="/posts" />} />
             </Routes>
         </main>
