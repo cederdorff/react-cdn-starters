@@ -1,5 +1,12 @@
 {
     "users": {
+        "0": {
+            "image": "https://www.baaa.dk/media/hi4lv5hw/morten-bonderup.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921669800000&format=webp",
+            "mail": "moab@eaaa.dk",
+            "name": "Morten Algy Bonderup",
+            "phone": "72286339",
+            "title": "Senior Lecturer"
+        },
         "1": {
             "image": "https://www.baaa.dk/media/u4gorzsd/birgitte-kirk-iversen2.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921541630000&format=webp",
             "mail": "bki@eaaa.dk",
@@ -76,13 +83,6 @@
             "name": "Anne Kirketerp",
             "phone": "72286380",
             "title": "Head of Department"
-        },
-        "12": {
-            "image": "https://www.baaa.dk/media/hi4lv5hw/morten-bonderup.jpg?anchor=center&mode=crop&width=800&height=450&rnd=132792921669800000&format=webp",
-            "mail": "moab@eaaa.dk",
-            "name": "Morten Algy Bonderup",
-            "phone": "72286339",
-            "title": "Senior Lecturer"
         }
     }
 }
