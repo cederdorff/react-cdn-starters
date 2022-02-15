@@ -23,27 +23,10 @@ function UsersPage() {
             <h1>Users</h1>
             <section className="grid-container">
                 {users.map(user => (
-                    <UserItem user={user} />
+                    <UserItem user={user} key={user.id} />
                 ))}
             </section>
         </section>
-    );
-}
-
-// ====== User List Component ====== //
-function UserItem({ user }) {
-    const navigate = useNavigate();
-
-    function handleClick() {
-        navigate(`users/${user.id}`);
-    }
-
-    return (
-        <article onClick={handleClick}>
-            <img src={user.image} />
-            <h2>{user.name}</h2>
-            <a href={`mailto:${user.mail}`}>{user.mail}</a>
-        </article>
     );
 }
 
@@ -154,6 +137,23 @@ function UpdatePage() {
 }
 
 // ====== COMPONENTS ====== //
+
+// ====== User List Component ====== //
+function UserItem({ user }) {
+    const navigate = useNavigate();
+
+    function handleClick() {
+        navigate(`users/${user.id}`);
+    }
+
+    return (
+        <article onClick={handleClick}>
+            <img src={user.image} />
+            <h2>{user.name}</h2>
+            <a href={`mailto:${user.mail}`}>{user.mail}</a>
+        </article>
+    );
+}
 
 // Navbar Componment
 function Nav() {
