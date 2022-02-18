@@ -128,7 +128,7 @@ nav a.active {
 .grid-container > article {
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
     text-align: center;
-    padding: 2em 1em;
+    padding: 1.5em;
     background-color: var(--white);
     transition: 0.5s;
     animation: fadeIn 0.5s;
@@ -141,8 +141,8 @@ nav a.active {
 
 .grid-container > article img {
     width: 100%;
-    max-width: 250px;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
 }
 
 /* ---------- form styling ---------- */
@@ -247,4 +247,27 @@ form .file-input {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 0.4s, opacity 0.4s linear;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    margin: 0 0 1.2em;
+    text-align: left;
+}
+
+.avatar span {
+    margin: 0 0 0 1em;
+}
+
+.avatar h3,
+.avatar p {
+    margin: 0;
+}
+
+article .avatar img {
+    max-width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
 }

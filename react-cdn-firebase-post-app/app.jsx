@@ -10,7 +10,7 @@ function PostsPage() {
     const [posts, setPosts] = React.useState([]);
 
     React.useEffect(async () => {
-        const url = "https://user-app-289f1.firebaseio.com/posts.json";
+        const url = "https://race-rest-default-rtdb.firebaseio.com/posts.json";
         const response = await fetch(url);
         const data = await response.json();
         const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
@@ -34,7 +34,8 @@ function CreatePage() {
     const navigate = useNavigate();
 
     async function createPost(newPost) {
-        const url = "https://user-app-289f1.firebaseio.com/posts.json";
+        newPost.uid = 4; // default user id added
+        const url = "https://race-rest-default-rtdb.firebaseio.com/posts.json";
         const response = await fetch(url, {
             method: "POST",
             body: JSON.stringify(newPost)
@@ -94,7 +95,7 @@ function UpdatePage() {
     const params = useParams();
     const navigate = useNavigate();
     const postId = params.postId;
-    const url = `https://user-app-289f1.firebaseio.com/posts/${postId}.json`;
+    const url = `https://race-rest-default-rtdb.firebaseio.com/posts/${postId}.json`;
 
     React.useEffect(async () => {
         const response = await fetch(url);
@@ -140,7 +141,6 @@ function UpdatePage() {
 // ====== Post List Component ====== //
 function PostItem({ post }) {
     const navigate = useNavigate();
-    console.log(post);
 
     function handleClick() {
         navigate(`posts/${post.id}`);
@@ -148,10 +148,34 @@ function PostItem({ post }) {
 
     return (
         <article onClick={handleClick}>
+            <UserAvatar uid={post.uid} />
             <img src={post.image} />
             <h2>{post.title}</h2>
             <p>{post.body}</p>
         </article>
+    );
+}
+
+// ====== UserAvatar Component ====== //
+function UserAvatar({ uid }) {
+    const [user, setUser] = React.useState({});
+    const url = `https://race-rest-default-rtdb.firebaseio.com/users/${uid}.json`;
+
+    React.useEffect(async () => {
+        const response = await fetch(url);
+        const data = await response.json();
+        setUser(data);
+        console.log(data);
+    }, [url]);
+
+    return (
+        <div className="avatar">
+            <img src={user.image} />
+            <span>
+                <h3>{user.name}</h3>
+                <p>{user.title}</p>
+            </span>
+        </div>
     );
 }
 
