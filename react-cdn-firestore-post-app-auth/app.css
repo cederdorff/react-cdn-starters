@@ -205,6 +205,8 @@ button.btn-delete {
     right: 0;
     top: 0;
     cursor: pointer;
+    font-size: 0.7em;
+    padding: 2.032em 1em;
 }
 
 input {
