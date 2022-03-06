@@ -10,8 +10,9 @@ import {
     deleteDoc,
     addDoc,
     getDoc,
-    getDocs,
-    collection
+    serverTimestamp,
+    query,
+    orderBy
 } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 
 // ====== PAGES ====== //
@@ -21,7 +22,8 @@ function PostsPage() {
     const [posts, setPosts] = React.useState([]);
 
     React.useEffect(async () => {
-        onSnapshot(postsRef, data => {
+        const q = query(postsRef, orderBy("createdAt", "desc"));
+        onSnapshot(q, data => {
             const postsData = data.docs.map(doc => {
                 return { ...doc.data(), id: doc.id };
             });
@@ -45,6 +47,7 @@ function CreatePage() {
 
     async function createPost(newPost) {
         newPost.uid = "fTs84KRoYw5pRZEWCq2Z"; // default user id added
+        newPost.createdAt = serverTimestamp();
         await addDoc(postsRef, newPost);
         navigate("/");
     }
