@@ -265,6 +265,22 @@ function PostItem({ post }) {
     );
 }
 
+function ProfilePage({ showLoader }) {
+    const [user, setUser] = React.useState({});
+    const auth = getAuth();
+
+    React.useEffect(() => {
+        setUser(auth.currentUser);
+        showLoader(false);
+    }, [auth]);
+    return (
+        <section className="page">
+            <h1>Profile</h1>
+            {JSON.stringify(user)}
+        </section>
+    );
+}
+
 // ====== UserAvatar Component ====== //
 function UserAvatar({ uid }) {
     const [user, setUser] = React.useState({
@@ -312,6 +328,9 @@ function Nav() {
             <NavLink to="/create" className={({ isActive }) => (isActive ? "active" : "")}>
                 Create
             </NavLink>
+            <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+                Profile
+            </NavLink>
             <a className="btn-sign-out" onClick={handleSignOut}>
                 Sign Out
             </a>
@@ -346,6 +365,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<PostsPage showLoader={setLoading} />} />
                         <Route path="/create" element={<CreatePage showLoader={setLoading} />} />
+                        <Route path="/profile" element={<ProfilePage showLoader={setLoading} />} />
                         <Route path="/posts/:postId" element={<UpdatePage showLoader={setLoading} />} />
                         <Route path="*" element={<Navigate replace to="/" />} />
                     </Routes>
