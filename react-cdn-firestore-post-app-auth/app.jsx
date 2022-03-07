@@ -273,6 +273,7 @@ function ProfilePage({ showLoader }) {
         setUser(auth.currentUser);
         showLoader(false);
     }, [auth]);
+
     return (
         <section className="page">
             <h1>Profile</h1>
