@@ -293,7 +293,9 @@ function UserAvatar({ uid }) {
     React.useEffect(async () => {
         const docRef = doc(usersRef, uid);
         const docSnap = await getDoc(docRef);
-        setUser(docSnap.data());
+        if (docSnap.data()) {
+            setUser(docSnap.data());
+        }
     }, []);
 
     return (
