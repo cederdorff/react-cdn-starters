@@ -124,7 +124,7 @@ function PostForm({ post, handleSubmit }) {
                 className="image-preview"
                 src={formData.image}
                 alt="Choose"
-                onError={event => (event.target.src = "./img/user-placeholder.jpg")}
+                onError={event => (event.target.src = "./img/img-placeholder.jpg")}
             />
             <button>Save</button>
         </form>
@@ -259,7 +259,6 @@ function ProfilePage({ showLoader }) {
             const docSnap = await getDoc(docRef);
             if (docSnap.data()) {
                 setUser(prevUser => ({ ...prevUser, ...docSnap.data() }));
-                console.log(user);
             }
         }
 
