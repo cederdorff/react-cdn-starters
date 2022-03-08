@@ -194,7 +194,7 @@ button {
     margin: 1em auto 0;
 }
 
-button.btn-delete {
+button.btn-outline {
     background-color: var(--light-green);
     color: var(--green);
     border: solid 2px var(--green);

@@ -163,7 +163,7 @@ function UpdatePage({ showLoader }) {
         <section className="page">
             <h1>Update Post</h1>
             <PostForm post={post} handleSubmit={savePost} />
-            <button className="btn-delete" onClick={deletePost}>
+            <button className="btn-outline" onClick={deletePost}>
                 Delete Post
             </button>
         </section>
@@ -281,6 +281,11 @@ function ProfilePage({ showLoader }) {
         event.preventDefault();
     }
 
+    function handleSignOut() {
+        const auth = getAuth();
+        signOut(auth);
+    }
+
     return (
         <section className="page">
             <h1>Profile</h1>
@@ -321,6 +326,9 @@ function ProfilePage({ showLoader }) {
                 />
                 <button>Save User</button>
             </form>
+            <button className="btn-outline" onClick={handleSignOut}>
+                Sign Out
+            </button>
         </section>
     );
 }
@@ -382,10 +390,6 @@ function Loader({ show }) {
 
 // Navbar Componment
 function Nav() {
-    function handleSignOut() {
-        const auth = getAuth();
-        signOut(auth);
-    }
     return (
         <nav>
             <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
@@ -397,9 +401,6 @@ function Nav() {
             <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
                 Profile
             </NavLink>
-            <a className="btn-sign-out" onClick={handleSignOut}>
-                Sign Out
-            </a>
         </nav>
     );
 }
