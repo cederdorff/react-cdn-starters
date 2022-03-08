@@ -1,11 +1,12 @@
 # react-cdn-starters
 
-
 [react-cdn-firebase-post-app](https://cederdorff.github.io/react-cdn-starters/react-cdn-firebase-post-app)
 
 [react-cdn-firebase-rest](https://cederdorff.github.io/react-cdn-starters/react-cdn-firebase-rest)
 
 [react-cdn-firestore-post-app-auth](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-post-app-auth)
+
+[react-cdn-firestore-post-app-auth-v2](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-post-app-auth-v2)
 
 [react-cdn-firestore-post-app](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-post-app)
 
