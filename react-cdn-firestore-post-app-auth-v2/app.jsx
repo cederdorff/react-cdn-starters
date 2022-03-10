@@ -17,6 +17,7 @@ import {
     doc,
     updateDoc,
     deleteDoc,
+    setDoc,
     addDoc,
     getDoc,
     serverTimestamp,
@@ -249,12 +250,14 @@ function SignUpPage() {
 
 function ProfilePage({ showLoader }) {
     const [user, setUser] = React.useState({});
+    const auth = getAuth();
 
     React.useEffect(async () => {
-        const auth = getAuth();
-        setUser(auth.currentUser);
-        console.log(auth.currentUser);
+        showLoader(true);
+
         if (auth.currentUser) {
+            setUser(auth.currentUser);
+
             const docRef = doc(usersRef, auth.currentUser.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.data()) {
@@ -263,7 +266,7 @@ function ProfilePage({ showLoader }) {
         }
 
         showLoader(false);
-    }, []);
+    }, [auth.currentUser]);
 
     function handleChange(event) {
         const name = event.target.name;
@@ -276,12 +279,19 @@ function ProfilePage({ showLoader }) {
         });
     }
 
-    function submitEvent(event) {
+    async function submitEvent(event) {
         event.preventDefault();
+        showLoader(true);
+
+        const userToUpdate = { name: user.name, title: user.title, image: user.image };
+        console.log(userToUpdate);
+        const docRef = doc(usersRef, user.uid);
+
+        await setDoc(docRef, userToUpdate);
+        showLoader(false);
     }
 
     function handleSignOut() {
-        const auth = getAuth();
         signOut(auth);
     }
 
