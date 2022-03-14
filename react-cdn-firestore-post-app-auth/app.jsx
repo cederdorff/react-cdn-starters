@@ -109,7 +109,7 @@ function UpdatePage({ showLoader }) {
     const navigate = useNavigate();
     const postId = params.postId;
 
-    React.useEffect(async () => {
+    React.useEffect(() => {
         async function getUser() {
             const docRef = doc(postsRef, postId);
             const docSnap = await getDoc(docRef);
