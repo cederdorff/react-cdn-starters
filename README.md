@@ -6,8 +6,6 @@
 
 [react-cdn-firestore-post-app-auth](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-post-app-auth)
 
-[react-cdn-firestore-post-app-auth-v2](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-post-app-auth-v2)
-
 [react-cdn-firestore-post-app](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-post-app)
 
 [react-cdn-firestore-user-crud](https://cederdorff.github.io/react-cdn-starters/react-cdn-firestore-user-crud)
