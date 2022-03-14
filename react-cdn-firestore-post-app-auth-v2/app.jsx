@@ -1,36 +1,10 @@
 // React Imports
 import * as React from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
-import {
-    HashRouter,
-    Routes,
-    Route,
-    NavLink,
-    Link,
-    useNavigate,
-    useParams,
-    Navigate
-} from "https://cdn.skypack.dev/react-router-dom";
+import { HashRouter, Routes, Route, NavLink, Link, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import { postsRef, usersRef } from "./firebase-config.js";
-import {
-    onSnapshot,
-    doc,
-    updateDoc,
-    deleteDoc,
-    setDoc,
-    addDoc,
-    getDoc,
-    serverTimestamp,
-    query,
-    orderBy
-} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
-import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut
-} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+import { onSnapshot, doc, updateDoc, deleteDoc, setDoc, addDoc, getDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 
 // ====== PAGES ====== //
 
@@ -106,29 +80,26 @@ function PostForm({ post, handleSubmit }) {
         });
     }
 
+    const [errorMessage, setErrorMessage] = React.useState("");
+
     function submitEvent(event) {
         event.preventDefault();
-        handleSubmit(formData);
+        const validForm = formData.title && formData.body && formData.image;
+        if (validForm) {
+            handleSubmit(formData);
+        } else {
+            setErrorMessage("Please, fill in all fields.");
+        }
     }
 
     return (
         <form onSubmit={submitEvent}>
             <input type="text" value={formData.title} onChange={handleChange} name="title" placeholder="Type title" />
             <input value={formData.body} onChange={handleChange} name="body" placeholder="Type body of your post" />
-            <input
-                type="url"
-                value={formData.image}
-                accept="image/*"
-                onChange={handleChange}
-                name="image"
-                placeholder="Paste image url"
-            />
-            <img
-                className="image-preview"
-                src={formData.image}
-                alt="Choose"
-                onError={event => (event.target.src = "./img/img-placeholder.jpg")}
-            />
+            <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
+            <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/img-placeholder.jpg")} />
+            <p className="text-error">{errorMessage}</p>
+
             <button>Save</button>
         </form>
     );
@@ -186,7 +157,6 @@ function SignInPage() {
             .then(userCredential => {
                 // Signed in
                 const user = userCredential.user;
-                // ...
             })
             .catch(error => {
                 let code = error.code;
@@ -304,37 +274,12 @@ function ProfilePage({ showLoader }) {
                 <label for="name">Name</label>
                 <input type="text" value={user?.name} onChange={handleChange} name="name" placeholder="Type name" />
                 <label for="email">Email</label>
-                <input
-                    type="email"
-                    value={user?.email}
-                    onChange={handleChange}
-                    name="email"
-                    placeholder="Type email"
-                    disabled
-                />
+                <input type="email" value={user?.email} onChange={handleChange} name="email" placeholder="Type email" disabled />
                 <label for="title">Title</label>
-                <input
-                    type="text"
-                    value={user?.title}
-                    onChange={handleChange}
-                    name="title"
-                    placeholder="Type your title"
-                />
+                <input type="text" value={user?.title} onChange={handleChange} name="title" placeholder="Type your title" />
                 <label for="image">Image url</label>
-                <input
-                    type="url"
-                    value={user?.image}
-                    accept="image/*"
-                    onChange={handleChange}
-                    name="image"
-                    placeholder="Paste image url"
-                />
-                <img
-                    className="image-preview"
-                    src={user?.image}
-                    alt="Choose"
-                    onError={event => (event.target.src = "./img/user-placeholder.jpg")}
-                />
+                <input type="url" value={user?.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
+                <img className="image-preview" src={user?.image} alt="Choose" onError={event => (event.target.src = "./img/user-placeholder.jpg")} />
                 <button>Save User</button>
             </form>
             <button className="btn-outline" onClick={handleSignOut}>
