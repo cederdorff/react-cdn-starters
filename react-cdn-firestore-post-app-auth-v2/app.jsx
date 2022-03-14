@@ -38,7 +38,7 @@ import {
 function PostsPage({ showLoader }) {
     const [posts, setPosts] = React.useState([]);
 
-    React.useEffect(async () => {
+    React.useEffect(() => {
         const q = query(postsRef, orderBy("createdAt", "desc"));
         onSnapshot(q, data => {
             const postsData = data.docs.map(doc => {
@@ -71,7 +71,9 @@ function CreatePage({ showLoader }) {
         showLoader(true);
         newPost.uid = auth.currentUser.uid; // default user id added
         newPost.createdAt = serverTimestamp();
+
         await addDoc(postsRef, newPost);
+
         navigate("/");
     }
     return (
