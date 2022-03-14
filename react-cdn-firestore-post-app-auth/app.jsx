@@ -1,35 +1,10 @@
 // React Imports
 import * as React from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
-import {
-    HashRouter,
-    Routes,
-    Route,
-    NavLink,
-    Link,
-    useNavigate,
-    useParams,
-    Navigate
-} from "https://cdn.skypack.dev/react-router-dom";
+import { HashRouter, Routes, Route, NavLink, Link, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import { postsRef, usersRef } from "./firebase-config.js";
-import {
-    onSnapshot,
-    doc,
-    updateDoc,
-    deleteDoc,
-    addDoc,
-    getDoc,
-    serverTimestamp,
-    query,
-    orderBy
-} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
-import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut
-} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+import { onSnapshot, doc, updateDoc, deleteDoc, setDoc, addDoc, getDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
 
 // ====== PAGES ====== //
 
@@ -37,7 +12,7 @@ import {
 function PostsPage({ showLoader }) {
     const [posts, setPosts] = React.useState([]);
 
-    React.useEffect(async () => {
+    React.useEffect(() => {
         const q = query(postsRef, orderBy("createdAt", "desc"));
         onSnapshot(q, data => {
             const postsData = data.docs.map(doc => {
@@ -61,14 +36,18 @@ function PostsPage({ showLoader }) {
 // Create Page
 function CreatePage({ showLoader }) {
     const navigate = useNavigate();
+    const auth = getAuth();
+
     React.useEffect(() => {
         showLoader(false);
     }, []);
     async function createPost(newPost) {
         showLoader(true);
-        newPost.uid = "fTs84KRoYw5pRZEWCq2Z"; // default user id added
+        newPost.uid = auth.currentUser.uid; // default user id added
         newPost.createdAt = serverTimestamp();
+
         await addDoc(postsRef, newPost);
+
         navigate("/");
     }
     return (
@@ -81,6 +60,7 @@ function CreatePage({ showLoader }) {
 
 function PostForm({ post, handleSubmit }) {
     const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
+    const [errorMessage, setErrorMessage] = React.useState("");
 
     React.useEffect(() => {
         if (post) {
@@ -103,27 +83,21 @@ function PostForm({ post, handleSubmit }) {
 
     function submitEvent(event) {
         event.preventDefault();
-        handleSubmit(formData);
+        const validForm = formData.title && formData.body && formData.image;
+        if (validForm) {
+            handleSubmit(formData);
+        } else {
+            setErrorMessage("Please, fill in all fields.");
+        }
     }
 
     return (
         <form onSubmit={submitEvent}>
             <input type="text" value={formData.title} onChange={handleChange} name="title" placeholder="Type title" />
             <input value={formData.body} onChange={handleChange} name="body" placeholder="Type body of your post" />
-            <input
-                type="url"
-                value={formData.image}
-                accept="image/*"
-                onChange={handleChange}
-                name="image"
-                placeholder="Paste image url"
-            />
-            <img
-                className="image-preview"
-                src={formData.image}
-                alt="Choose"
-                onError={event => (event.target.src = "./img/user-placeholder.jpg")}
-            />
+            <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
+            <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/img-placeholder.jpg")} />
+            <p className="text-error">{errorMessage}</p>
             <button>Save</button>
         </form>
     );
@@ -134,16 +108,20 @@ function UpdatePage({ showLoader }) {
     const params = useParams();
     const navigate = useNavigate();
     const postId = params.postId;
-    const docRef = doc(postsRef, postId);
 
     React.useEffect(async () => {
-        const docSnap = await getDoc(docRef);
-        setPost(docSnap.data());
-        showLoader(false);
-    }, []);
+        async function getUser() {
+            const docRef = doc(postsRef, postId);
+            const docSnap = await getDoc(docRef);
+            setPost(docSnap.data());
+        }
+
+        getUser();
+    }, [postId]);
 
     async function savePost(postToUpdate) {
         showLoader(true);
+        const docRef = doc(postsRef, postId);
         await updateDoc(docRef, postToUpdate);
         navigate("/");
     }
@@ -152,6 +130,7 @@ function UpdatePage({ showLoader }) {
         const confirmDelete = confirm(`Do you want to delete post, ${post.title}?`);
         if (confirmDelete) {
             showLoader(true);
+            const docRef = doc(postsRef, postId);
             await deleteDoc(docRef);
             navigate("/");
         }
@@ -161,7 +140,7 @@ function UpdatePage({ showLoader }) {
         <section className="page">
             <h1>Update Post</h1>
             <PostForm post={post} handleSubmit={savePost} />
-            <button className="btn-delete" onClick={deletePost}>
+            <button className="btn-outline" onClick={deletePost}>
                 Delete Post
             </button>
         </section>
@@ -181,7 +160,6 @@ function SignInPage() {
             .then(userCredential => {
                 // Signed in
                 const user = userCredential.user;
-                // ...
             })
             .catch(error => {
                 let code = error.code;
@@ -245,6 +223,75 @@ function SignUpPage() {
     );
 }
 
+function ProfilePage({ showLoader }) {
+    const [user, setUser] = React.useState({});
+    const auth = getAuth();
+
+    React.useEffect(async () => {
+        showLoader(true);
+
+        if (auth.currentUser) {
+            setUser(auth.currentUser);
+
+            const docRef = doc(usersRef, auth.currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.data()) {
+                setUser(prevUser => ({ ...prevUser, ...docSnap.data() }));
+            }
+        }
+
+        showLoader(false);
+    }, [auth.currentUser]);
+
+    function handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        setUser(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: value
+            };
+        });
+    }
+
+    async function submitEvent(event) {
+        event.preventDefault();
+        showLoader(true);
+
+        const userToUpdate = { name: user.name, title: user.title, image: user.image };
+        console.log(userToUpdate);
+        const docRef = doc(usersRef, user.uid);
+
+        await setDoc(docRef, userToUpdate);
+        showLoader(false);
+    }
+
+    function handleSignOut() {
+        signOut(auth);
+    }
+
+    return (
+        <section className="page">
+            <h1>Profile</h1>
+            <form onSubmit={submitEvent}>
+                <label for="name">Name</label>
+                <input type="text" value={user?.name} onChange={handleChange} name="name" placeholder="Type name" />
+                <label for="email">Email</label>
+                <input type="email" value={user?.email} onChange={handleChange} name="email" placeholder="Type email" disabled />
+                <label for="title">Title</label>
+                <input type="text" value={user?.title} onChange={handleChange} name="title" placeholder="Type your title" />
+                <label for="image">Image url</label>
+                <input type="url" value={user?.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
+                <img className="image-preview" src={user?.image} alt="Choose" onError={event => (event.target.src = "./img/user-placeholder.jpg")} />
+                <button>Save User</button>
+            </form>
+            <button className="btn-outline" onClick={handleSignOut}>
+                Sign Out
+            </button>
+        </section>
+    );
+}
+
 // ====== COMPONENTS ====== //
 
 // ====== Post List Component ====== //
@@ -262,23 +309,6 @@ function PostItem({ post }) {
             <h2>{post.title}</h2>
             <p>{post.body}</p>
         </article>
-    );
-}
-
-function ProfilePage({ showLoader }) {
-    const [user, setUser] = React.useState({});
-    const auth = getAuth();
-
-    React.useEffect(() => {
-        setUser(auth.currentUser);
-        showLoader(false);
-    }, [auth]);
-
-    return (
-        <section className="page">
-            <h1>Profile</h1>
-            {JSON.stringify(user)}
-        </section>
     );
 }
 
@@ -319,10 +349,6 @@ function Loader({ show }) {
 
 // Navbar Componment
 function Nav() {
-    function handleSignOut() {
-        const auth = getAuth();
-        signOut(auth);
-    }
     return (
         <nav>
             <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
@@ -334,9 +360,6 @@ function Nav() {
             <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
                 Profile
             </NavLink>
-            <a className="btn-sign-out" onClick={handleSignOut}>
-                Sign Out
-            </a>
         </nav>
     );
 }
