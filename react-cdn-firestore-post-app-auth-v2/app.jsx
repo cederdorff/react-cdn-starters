@@ -98,7 +98,6 @@ function PostForm({ post, handleSubmit }) {
             <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
             <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/img-placeholder.jpg")} />
             <p className="text-error">{errorMessage}</p>
-
             <button>Save</button>
         </form>
     );
@@ -109,16 +108,20 @@ function UpdatePage({ showLoader }) {
     const params = useParams();
     const navigate = useNavigate();
     const postId = params.postId;
-    const docRef = doc(postsRef, postId);
 
     React.useEffect(async () => {
-        const docSnap = await getDoc(docRef);
-        setPost(docSnap.data());
-        showLoader(false);
-    }, []);
+        async function getUser() {
+            const docRef = doc(postsRef, postId);
+            const docSnap = await getDoc(docRef);
+            setPost(docSnap.data());
+        }
+
+        getUser();
+    }, [postId]);
 
     async function savePost(postToUpdate) {
         showLoader(true);
+        const docRef = doc(postsRef, postId);
         await updateDoc(docRef, postToUpdate);
         navigate("/");
     }
@@ -127,6 +130,7 @@ function UpdatePage({ showLoader }) {
         const confirmDelete = confirm(`Do you want to delete post, ${post.title}?`);
         if (confirmDelete) {
             showLoader(true);
+            const docRef = doc(postsRef, postId);
             await deleteDoc(docRef);
             navigate("/");
         }
