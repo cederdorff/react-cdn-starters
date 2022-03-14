@@ -60,6 +60,7 @@ function CreatePage({ showLoader }) {
 
 function PostForm({ post, handleSubmit }) {
     const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
+    const [errorMessage, setErrorMessage] = React.useState("");
 
     React.useEffect(() => {
         if (post) {
@@ -79,8 +80,6 @@ function PostForm({ post, handleSubmit }) {
             };
         });
     }
-
-    const [errorMessage, setErrorMessage] = React.useState("");
 
     function submitEvent(event) {
         event.preventDefault();
