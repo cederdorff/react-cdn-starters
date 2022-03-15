@@ -276,13 +276,16 @@ function UserAvatar({ uid }) {
         title: "User's Title"
     });
 
-    React.useEffect(async () => {
-        const docRef = doc(usersRef, uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.data()) {
-            setUser(docSnap.data());
+    React.useEffect(() => {
+        async function getUser() {
+            const docRef = doc(usersRef, uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.data()) {
+                setUser(docSnap.data());
+            }
         }
-    }, []);
+        getUser();
+    }, [uid]);
 
     return (
         <div className="avatar">
