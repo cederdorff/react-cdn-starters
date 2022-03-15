@@ -19,6 +19,7 @@ function PostsPage({ showLoader }) {
                 return { ...doc.data(), id: doc.id };
             });
             setPosts(postsData);
+            console.log(postsData);
             showLoader(false);
         });
     }, []);
@@ -55,51 +56,6 @@ function CreatePage({ showLoader }) {
             <h1>Create New Post</h1>
             <PostForm handleSubmit={createPost} />
         </section>
-    );
-}
-
-function PostForm({ post, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
-    const [errorMessage, setErrorMessage] = React.useState("");
-
-    React.useEffect(() => {
-        if (post) {
-            setFormData(post);
-        } else {
-            setFormData({ title: "", body: "", image: "" });
-        }
-    }, [post]);
-
-    function handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        setFormData(prevFormData => {
-            return {
-                ...prevFormData,
-                [name]: value
-            };
-        });
-    }
-
-    function submitEvent(event) {
-        event.preventDefault();
-        const validForm = formData.title && formData.body && formData.image;
-        if (validForm) {
-            handleSubmit(formData);
-        } else {
-            setErrorMessage("Please, fill in all fields.");
-        }
-    }
-
-    return (
-        <form onSubmit={submitEvent}>
-            <input type="text" value={formData.title} onChange={handleChange} name="title" placeholder="Type title" />
-            <input value={formData.body} onChange={handleChange} name="body" placeholder="Type body of your post" />
-            <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
-            <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/img-placeholder.jpg")} />
-            <p className="text-error">{errorMessage}</p>
-            <button>Save</button>
-        </form>
     );
 }
 
@@ -336,6 +292,51 @@ function UserAvatar({ uid }) {
                 <p>{user.title}</p>
             </span>
         </div>
+    );
+}
+
+function PostForm({ post, handleSubmit }) {
+    const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
+    const [errorMessage, setErrorMessage] = React.useState("");
+
+    React.useEffect(() => {
+        if (post) {
+            setFormData(post);
+        } else {
+            setFormData({ title: "", body: "", image: "" });
+        }
+    }, [post]);
+
+    function handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: value
+            };
+        });
+    }
+
+    function submitEvent(event) {
+        event.preventDefault();
+        const validForm = formData.title && formData.body && formData.image;
+        if (validForm) {
+            handleSubmit(formData);
+        } else {
+            setErrorMessage("Please, fill in all fields.");
+        }
+    }
+
+    return (
+        <form onSubmit={submitEvent}>
+            <input type="text" value={formData.title} onChange={handleChange} name="title" placeholder="Type title" />
+            <input value={formData.body} onChange={handleChange} name="body" placeholder="Type body of your post" />
+            <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
+            <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/img-placeholder.jpg")} />
+            <p className="text-error">{errorMessage}</p>
+            <button>Save</button>
+        </form>
     );
 }
 
