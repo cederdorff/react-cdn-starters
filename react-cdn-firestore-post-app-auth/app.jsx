@@ -66,13 +66,14 @@ function UpdatePage({ showLoader }) {
     const postId = params.postId;
 
     React.useEffect(() => {
-        async function getUser() {
+        async function getPost() {
             const docRef = doc(postsRef, postId);
             const docSnap = await getDoc(docRef);
             setPost(docSnap.data());
+            showLoader(false);
         }
 
-        getUser();
+        getPost();
     }, [postId]);
 
     async function savePost(postToUpdate) {
@@ -185,17 +186,14 @@ function ProfilePage({ showLoader }) {
 
     React.useEffect(async () => {
         showLoader(true);
-
         if (auth.currentUser) {
             setUser(auth.currentUser);
-
             const docRef = doc(usersRef, auth.currentUser.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.data()) {
                 setUser(prevUser => ({ ...prevUser, ...docSnap.data() }));
             }
         }
-
         showLoader(false);
     }, [auth.currentUser]);
 
@@ -355,15 +353,9 @@ function Loader({ show }) {
 function Nav() {
     return (
         <nav>
-            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
-                Posts
-            </NavLink>
-            <NavLink to="/create" className={({ isActive }) => (isActive ? "active" : "")}>
-                Create
-            </NavLink>
-            <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
-                Profile
-            </NavLink>
+            <NavLink to="/">Posts</NavLink>
+            <NavLink to="/create">Create</NavLink>
+            <NavLink to="/profile">Profile</NavLink>
         </nav>
     );
 }
