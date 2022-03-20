@@ -14,7 +14,7 @@ function PostsPage() {
         const response = await fetch(url);
         const data = await response.json();
         const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
-        setPosts(postsArray.reverse());
+        setPosts(postsArray);
     }, []);
 
     return (
@@ -34,7 +34,8 @@ function CreatePage() {
     const navigate = useNavigate();
 
     async function createPost(newPost) {
-        newPost.uid = 4; // default user id added
+        newPost.uid = "fTs84KRoYw5pRZEWCq2Z"; // default user id added
+        console.log(newPost);
         const url = "https://race-rest-default-rtdb.firebaseio.com/posts.json";
         const response = await fetch(url, {
             method: "POST",
@@ -165,7 +166,6 @@ function UserAvatar({ uid }) {
         const response = await fetch(url);
         const data = await response.json();
         setUser(data);
-        console.log(data);
     }, [url]);
 
     return (
