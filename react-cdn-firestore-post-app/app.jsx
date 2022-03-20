@@ -3,17 +3,7 @@ import * as React from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "https://cdn.skypack.dev/react-router-dom";
 import { postsRef, usersRef } from "./firebase-config.js";
-import {
-    onSnapshot,
-    doc,
-    updateDoc,
-    deleteDoc,
-    addDoc,
-    getDoc,
-    serverTimestamp,
-    query,
-    orderBy
-} from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+import { onSnapshot, doc, updateDoc, deleteDoc, addDoc, getDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
 
 // ====== PAGES ====== //
 
@@ -90,20 +80,8 @@ function PostForm({ post, handleSubmit }) {
         <form onSubmit={submitEvent}>
             <input type="text" value={formData.title} onChange={handleChange} name="title" placeholder="Type title" />
             <input value={formData.body} onChange={handleChange} name="body" placeholder="Type body of your post" />
-            <input
-                type="url"
-                value={formData.image}
-                accept="image/*"
-                onChange={handleChange}
-                name="image"
-                placeholder="Paste image url"
-            />
-            <img
-                className="image-preview"
-                src={formData.image}
-                alt="Choose"
-                onError={event => (event.target.src = "./img/user-placeholder.jpg")}
-            />
+            <input type="url" value={formData.image} accept="image/*" onChange={handleChange} name="image" placeholder="Paste image url" />
+            <img className="image-preview" src={formData.image} alt="Choose" onError={event => (event.target.src = "./img/user-placeholder.jpg")} />
             <button>Save</button>
         </form>
     );
