@@ -1,14 +1,14 @@
-import React from "https://cdn.skypack.dev/react";
+import React, { StrictMode, useState, useEffect } from "https://cdn.skypack.dev/react";
 import ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import * as UserService from "./services/UserService.js";
 
 // ====== User Page Component ====== //
 function Users() {
-    const [users, setUsers] = React.useState([]);
-    const [searchValue, setSearchValue] = React.useState("");
+    const [users, setUsers] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         setUsers(await UserService.getUsers());
     }, []);
 
@@ -68,9 +68,9 @@ function Create() {
 }
 
 function UserForm({ user, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ name: "", mail: "", image: "" });
+    const [formData, setFormData] = useState({ name: "", mail: "", image: "" });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (user) {
             setFormData(user);
         } else {
@@ -106,12 +106,12 @@ function UserForm({ user, handleSubmit }) {
 }
 
 function Update() {
-    const [user, setUser] = React.useState({});
+    const [user, setUser] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const userId = params.userId;
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         setUser(await UserService.getUser(userId));
     }, [userId]);
 
@@ -171,10 +171,10 @@ function App() {
 // ====== React Render App ====== //
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );
