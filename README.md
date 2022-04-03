@@ -16,6 +16,8 @@
 
 [react-cdn-json-read](https://cederdorff.github.io/react-cdn-starters/react-cdn-json-read)
 
+[react-cdn-page-template](https://cederdorff.github.io/react-cdn-starters/react-cdn-page-template)
+
 [react-cdn-spa-jsonbin-template](https://cederdorff.github.io/react-cdn-starters/react-cdn-spa-jsonbin-template)
 
 [react-cdn-spa-jsonbin](https://cederdorff.github.io/react-cdn-starters/react-cdn-spa-jsonbin)
