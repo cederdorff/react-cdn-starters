@@ -1,5 +1,5 @@
-import * as React from "https://cdn.skypack.dev/react";
-import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
+import React, { StrictMode } from "https://cdn.skypack.dev/react";
+import ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/react-router-dom";
 
 // ====== PAGES ====== //
@@ -59,10 +59,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );
