@@ -12,35 +12,37 @@ function Navigation() {
 function Header() {
     return (
         <header>
-            <h1>React Page Template</h1>
+            <h1>Header</h1>
         </header>
     );
 }
 
 function PageContent() {
     return (
-        <section>
-            <h2>Here goes some page content</h2>
-        </section>
+        <>
+            <section class="left">Column</section>
+            <section class="middle">Column</section>
+            <section class="right">Column</section>
+        </>
     );
 }
 
 function Footer() {
     return (
         <footer>
-            <p>This is my Footer</p>
+            <p>This is a Footer</p>
         </footer>
     );
 }
 
 function App() {
     return (
-        <>
+        <main className="grid-layout">
             <Navigation />
             <Header />
             <PageContent />
             <Footer />
-        </>
+        </main>
     );
 }
 
