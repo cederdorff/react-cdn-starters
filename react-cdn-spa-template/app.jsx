@@ -31,15 +31,9 @@ function Clients() {
 function Nav() {
     return (
         <nav>
-            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
-                Home
-            </NavLink>
-            <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
-                About
-            </NavLink>
-            <NavLink to="/clients" className={({ isActive }) => (isActive ? "active" : "")}>
-                Clients
-            </NavLink>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/clients">Clients</NavLink>
         </nav>
     );
 }
