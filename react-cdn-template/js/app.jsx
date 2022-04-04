@@ -5,21 +5,10 @@ function Greeting({ name }) {
     return <h1>Hello, {name}</h1>;
 }
 
-function MyComponent() {
-    const name = "RACE";
-
-    return (
-        <section>
-            <h1>Hello, {name}</h1>
-        </section>
-    );
-}
-
 function App() {
     return (
         <>
             <Greeting name="world" />
-            <MyComponent />
         </>
     );
 }
