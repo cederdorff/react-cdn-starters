@@ -1,20 +1,22 @@
-import * as React from "https://cdn.skypack.dev/react";
+import React, { StrictMode, useState, useEffect } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/react-router-dom";
 
 // ====== Home Page Component ====== //
 function Home() {
-    const [users, setUsers] = React.useState([]);
-    const [searchValue, setSearchValue] = React.useState("");
-
-    React.useEffect(async () => {
-        const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/users.json";
-        const response = await fetch(url);
-        const data = await response.json();
-        setUsers(data);
-    }, []);
-
+    const [users, setUsers] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
     const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchValue));
+
+    useEffect(() => {
+        async function getUsers() {
+            const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/users.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            setUsers(data);
+        }
+        getUsers();
+    }, []);
 
     return (
         <section className="page">
@@ -43,18 +45,19 @@ function UserItem({ user }) {
 // ====== Posts Page Component ====== //
 
 function Posts() {
-    const [posts, setPosts] = React.useState([]);
-    const [searchValue, setSearchValue] = React.useState("");
-
-    React.useEffect(async () => {
-        const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/posts.json";
-        const response = await fetch(url);
-        const data = await response.json();
-        setPosts(data);
-        console.log(data);
-    }, []);
-
+    const [posts, setPosts] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
     const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchValue));
+
+    useEffect(() => {
+        async function getPosts() {
+            const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/posts.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            setPosts(data);
+        }
+        getPosts();
+    }, []);
 
     return (
         <section className="page">
@@ -132,10 +135,10 @@ function App() {
 // ====== React Render App ====== //
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );
