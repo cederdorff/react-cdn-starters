@@ -1,13 +1,13 @@
-import React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import * as UserService from "./services/UserService.js";
 
 // ====== User Page Component ====== //
 function Users() {
-    const [users, setUsers] = React.useState([]);
+    const [users, setUsers] = useState([]);
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         // setUsers(await UserService.getUsers());
     }, []);
 
@@ -39,9 +39,9 @@ function UserItem({ user }) {
 
 // ====== User Form Component ====== //
 function UserForm({ user, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ name: "", mail: "", image: "" });
+    const [formData, setFormData] = useState({ name: "", mail: "", image: "" });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (user) {
             setFormData(user);
         } else {
@@ -103,10 +103,10 @@ function App() {
 // ====== React Render App ====== //
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );

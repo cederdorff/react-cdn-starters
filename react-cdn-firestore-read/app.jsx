@@ -1,4 +1,4 @@
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/react-router-dom";
 import { usersRef } from "./firebase-config.js";
@@ -7,9 +7,9 @@ import { onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-fi
 // ====== PAGES ====== //
 
 function Home() {
-    const [users, setUsers] = React.useState([]);
+    const [users, setUsers] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const cleanUp = onSnapshot(usersRef, data => {
             const users = data.docs.map(doc => {
                 return { ...doc.data(), id: doc.id };
@@ -88,10 +88,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );

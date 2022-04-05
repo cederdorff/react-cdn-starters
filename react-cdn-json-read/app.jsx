@@ -1,5 +1,5 @@
 // React Imports
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/react-router-dom";
 
@@ -7,9 +7,9 @@ import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/reac
 
 // Users Page (Home Page)
 function UsersPage() {
-    const [users, setUsers] = React.useState([]);
+    const [users, setUsers] = useState([]);
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/users.json";
         const response = await fetch(url);
         const data = await response.json();
@@ -87,10 +87,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );

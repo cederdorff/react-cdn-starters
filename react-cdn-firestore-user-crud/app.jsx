@@ -1,4 +1,4 @@
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import { usersRef } from "./firebase-config.js";
@@ -7,9 +7,9 @@ import { onSnapshot, doc, updateDoc, deleteDoc, addDoc, getDoc } from "https://w
 // ====== PAGES ====== //
 
 function UsersPage({ showLoader }) {
-    const [users, setUsers] = React.useState([]);
+    const [users, setUsers] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const cleanUp = onSnapshot(usersRef, data => {
             const users = data.docs.map(doc => {
                 return { ...doc.data(), id: doc.id };
@@ -50,12 +50,12 @@ function CreatePage({ showLoader }) {
 }
 
 function UpdatePage({ showLoader }) {
-    const [user, setUser] = React.useState({ name: "", mail: "", img: "img/user-placeholder.jpg" });
+    const [user, setUser] = useState({ name: "", mail: "", img: "img/user-placeholder.jpg" });
     const params = useParams();
     const navigate = useNavigate();
     const userId = params.userId;
 
-    React.useEffect(() => {
+    useEffect(() => {
         const getUser = async () => {
             const docRef = doc(usersRef, userId);
             const docSnap = await getDoc(docRef);
@@ -109,10 +109,10 @@ function UserItem({ user }) {
 }
 
 function UserForm({ user, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ name: "", mail: "", img: "" });
-    const imageRef = React.useRef();
+    const [formData, setFormData] = useState({ name: "", mail: "", img: "" });
+    const imageRef = useRef();
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (user) {
             setFormData(user);
         } else {
@@ -185,7 +185,7 @@ function Nav() {
 // ====== APP ====== //
 
 function App() {
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = useState(true);
 
     return (
         <main>

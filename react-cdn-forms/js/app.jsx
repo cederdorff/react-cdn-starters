@@ -1,8 +1,8 @@
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 
 function Form() {
-    const [selectedItems, setSelectedItems] = React.useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
 
     function handleChange(event) {
         const checkboxes = event.target.form.elements;

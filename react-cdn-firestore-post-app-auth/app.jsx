@@ -1,5 +1,5 @@
 // React Imports
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, Link, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 import { postsRef, usersRef } from "./firebase-config.js";
@@ -10,9 +10,9 @@ import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWith
 
 // Posts Page (Home Page)
 function PostsPage({ showLoader }) {
-    const [posts, setPosts] = React.useState([]);
+    const [posts, setPosts] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const q = query(postsRef, orderBy("createdAt", "desc"));
         onSnapshot(q, data => {
             const postsData = data.docs.map(doc => {
@@ -39,7 +39,7 @@ function CreatePage({ showLoader }) {
     const navigate = useNavigate();
     const auth = getAuth();
 
-    React.useEffect(() => {
+    useEffect(() => {
         showLoader(false);
     }, []);
     async function createPost(newPost) {
@@ -60,12 +60,12 @@ function CreatePage({ showLoader }) {
 }
 
 function UpdatePage({ showLoader }) {
-    const [post, setPost] = React.useState({});
+    const [post, setPost] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const postId = params.postId;
 
-    React.useEffect(() => {
+    useEffect(() => {
         async function getPost() {
             const docRef = doc(postsRef, postId);
             const docSnap = await getDoc(docRef);
@@ -106,7 +106,7 @@ function UpdatePage({ showLoader }) {
 
 // SIGN IN Page
 function SignInPage() {
-    const [errorMessage, setErrorMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     function signIn(event) {
         event.preventDefault();
@@ -142,7 +142,7 @@ function SignInPage() {
 }
 
 function SignUpPage() {
-    const [errorMessage, setErrorMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     function signUp(event) {
         event.preventDefault();
@@ -181,10 +181,10 @@ function SignUpPage() {
 }
 
 function ProfilePage({ showLoader }) {
-    const [user, setUser] = React.useState({});
+    const [user, setUser] = useState({});
     const auth = getAuth();
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         showLoader(true);
         if (auth.currentUser) {
             setUser(auth.currentUser);
@@ -268,13 +268,13 @@ function PostItem({ post }) {
 
 // ====== UserAvatar Component ====== //
 function UserAvatar({ uid }) {
-    const [user, setUser] = React.useState({
+    const [user, setUser] = useState({
         image: "./img/user-placeholder.jpg",
         name: "User's Name",
         title: "User's Title"
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         async function getUser() {
             const docRef = doc(usersRef, uid);
             const docSnap = await getDoc(docRef);
@@ -297,10 +297,10 @@ function UserAvatar({ uid }) {
 }
 
 function PostForm({ post, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
-    const [errorMessage, setErrorMessage] = React.useState("");
+    const [formData, setFormData] = useState({ title: "", body: "", image: "" });
+    const [errorMessage, setErrorMessage] = useState("");
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (post) {
             setFormData(post);
         } else {
@@ -363,9 +363,9 @@ function Nav() {
 // ====== APP ====== //
 
 function App() {
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = useState(true);
     const auth = getAuth();
-    const [isAuth, setIsAuth] = React.useState(localStorage.getItem("isAuth"));
+    const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
 
     onAuthStateChanged(auth, user => {
         if (user) {
@@ -405,10 +405,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );

@@ -1,14 +1,14 @@
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams, Navigate } from "https://cdn.skypack.dev/react-router-dom";
 
 // ====== Posts Page Component ====== //
 
 function Posts() {
-    const [posts, setPosts] = React.useState([]);
-    const [searchValue, setSearchValue] = React.useState("");
+    const [posts, setPosts] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?_embed";
         const response = await fetch(url);
         const data = await response.json();
@@ -65,9 +65,9 @@ function SearchBar({ setValue }) {
 
 // ====== Clients Page Component ====== //
 function Clients() {
-    const [posts, setPosts] = React.useState([]);
+    const [posts, setPosts] = useState([]);
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?&categories=2&_embed";
         const response = await fetch(url);
         const data = await response.json();
@@ -89,9 +89,9 @@ function Clients() {
 
 // ====== News Page Component ====== //
 function News() {
-    const [posts, setPosts] = React.useState([]);
+    const [posts, setPosts] = useState([]);
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?&categories=1&_embed";
         const response = await fetch(url);
         const data = await response.json();
@@ -113,11 +113,11 @@ function News() {
 
 // ====== Post Detail Page Component ====== //
 function PostDetail() {
-    const [post, setPost] = React.useState({});
+    const [post, setPost] = useState({});
     const params = useParams();
     const postSlug = params.postSlug;
 
-    React.useEffect(async () => {
+    useEffect(async () => {
         const url = `https://api.cederdorff.com/wp-json/wp/v2/posts?slug=${postSlug}&_embed`;
         const response = await fetch(url);
         const data = await response.json();
@@ -179,10 +179,10 @@ function App() {
 // ====== React Render App ====== //
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );
