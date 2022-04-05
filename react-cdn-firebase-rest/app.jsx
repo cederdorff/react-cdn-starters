@@ -1,5 +1,5 @@
 // React Imports
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "https://cdn.skypack.dev/react-router-dom";
 
@@ -7,15 +7,17 @@ import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "http
 
 // Users Page (Home Page)
 function UsersPage() {
-    const [users, setUsers] = React.useState([]);
+    const [users, setUsers] = useState([]);
 
-    React.useEffect(async () => {
-        const url = "https://user-app-289f1.firebaseio.com/users.json";
-        const response = await fetch(url);
-        const data = await response.json();
-        const usersArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
-        setUsers(usersArray);
-        console.log(usersArray);
+    useEffect(() => {
+        async function getUsers() {
+            const url = "https://user-app-289f1.firebaseio.com/users.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            const usersArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
+            setUsers(usersArray);
+        }
+        getUsers();
     }, []);
 
     return (
@@ -53,9 +55,9 @@ function CreatePage() {
 }
 
 function UserForm({ user, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ name: "", mail: "", image: "" });
+    const [formData, setFormData] = useState({ name: "", mail: "", image: "" });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (user) {
             setFormData(user);
         } else {
@@ -91,16 +93,19 @@ function UserForm({ user, handleSubmit }) {
 }
 
 function UpdatePage() {
-    const [user, setUser] = React.useState({});
+    const [user, setUser] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const userId = params.userId;
     const url = `https://user-app-289f1.firebaseio.com/users/${userId}.json`;
 
-    React.useEffect(async () => {
-        const response = await fetch(url);
-        const data = await response.json();
-        setUser(data);
+    useEffect(() => {
+        async function getUser() {
+            const response = await fetch(url);
+            const data = await response.json();
+            setUser(data);
+        }
+        getUser();
     }, [url]);
 
     async function saveUser(userToUpdate) {
@@ -185,10 +190,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );

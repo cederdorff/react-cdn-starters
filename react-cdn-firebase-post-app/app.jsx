@@ -1,5 +1,5 @@
 // React Imports
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "https://cdn.skypack.dev/react-router-dom";
 
@@ -7,14 +7,17 @@ import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "http
 
 // Posts Page (Home Page)
 function PostsPage() {
-    const [posts, setPosts] = React.useState([]);
+    const [posts, setPosts] = useState([]);
 
-    React.useEffect(async () => {
-        const url = "https://race-rest-default-rtdb.firebaseio.com/posts.json";
-        const response = await fetch(url);
-        const data = await response.json();
-        const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
-        setPosts(postsArray);
+    useEffect(() => {
+        async function getPosts() {
+            const url = "https://race-rest-default-rtdb.firebaseio.com/posts.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] })); // from object to array
+            setPosts(postsArray);
+        }
+        getPosts();
     }, []);
 
     return (
@@ -54,9 +57,9 @@ function CreatePage() {
 }
 
 function PostForm({ post, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
+    const [formData, setFormData] = useState({ title: "", body: "", image: "" });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (post) {
             setFormData(post);
         } else {
@@ -92,16 +95,20 @@ function PostForm({ post, handleSubmit }) {
 }
 
 function UpdatePage() {
-    const [post, setPost] = React.useState({});
+    const [post, setPost] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const postId = params.postId;
     const url = `https://race-rest-default-rtdb.firebaseio.com/posts/${postId}.json`;
 
-    React.useEffect(async () => {
-        const response = await fetch(url);
-        const data = await response.json();
-        setPost(data);
+    useEffect(() => {
+        async function getPost() {
+            const response = await fetch(url);
+            const data = await response.json();
+            setPost(data);
+        }
+
+        getPost();
     }, [url]);
 
     async function savePost(postToUpdate) {
@@ -159,13 +166,16 @@ function PostItem({ post }) {
 
 // ====== UserAvatar Component ====== //
 function UserAvatar({ uid }) {
-    const [user, setUser] = React.useState({});
+    const [user, setUser] = useState({});
     const url = `https://race-rest-default-rtdb.firebaseio.com/users/${uid}.json`;
 
-    React.useEffect(async () => {
-        const response = await fetch(url);
-        const data = await response.json();
-        setUser(data);
+    useEffect(() => {
+        async function getUser() {
+            const response = await fetch(url);
+            const data = await response.json();
+            setUser(data);
+        }
+        getUser();
     }, [url]);
 
     return (
@@ -209,10 +219,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );

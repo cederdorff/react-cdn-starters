@@ -17,12 +17,12 @@ function Header() {
     );
 }
 
-function PageContent() {
+function MainContent() {
     return (
         <>
-            <section class="left">Column</section>
-            <section class="middle">Column</section>
-            <section class="right">Column</section>
+            <section className="left">Column</section>
+            <section className="middle">Column</section>
+            <section className="right">Column</section>
         </>
     );
 }
@@ -37,10 +37,10 @@ function Footer() {
 
 function App() {
     return (
-        <main className="grid-layout">
+        <main className="page-layout">
             <Navigation />
             <Header />
-            <PageContent />
+            <MainContent />
             <Footer />
         </main>
     );
