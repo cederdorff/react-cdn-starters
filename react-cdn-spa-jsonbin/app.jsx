@@ -8,8 +8,11 @@ function Users() {
     const [users, setUsers] = useState([]);
     const [searchValue, setSearchValue] = useState("");
 
-    useEffect(async () => {
-        setUsers(await UserService.getUsers());
+    useEffect(() => {
+        async function getUsers() {
+            setUsers(await UserService.getUsers());
+        }
+        getUsers();
     }, []);
 
     const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchValue));
@@ -111,8 +114,11 @@ function Update() {
     const navigate = useNavigate();
     const userId = params.userId;
 
-    useEffect(async () => {
-        setUser(await UserService.getUser(userId));
+    useEffect(() => {
+        async function getUser() {
+            setUser(await UserService.getUser(userId));
+        }
+        getUser();
     }, [userId]);
 
     async function saveUser(userToUpdate) {

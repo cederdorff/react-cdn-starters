@@ -184,17 +184,20 @@ function ProfilePage({ showLoader }) {
     const [user, setUser] = useState({});
     const auth = getAuth();
 
-    useEffect(async () => {
-        showLoader(true);
-        if (auth.currentUser) {
-            setUser(auth.currentUser);
-            const docRef = doc(usersRef, auth.currentUser.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.data()) {
-                setUser(prevUser => ({ ...prevUser, ...docSnap.data() }));
+    useEffect(() => {
+        async function getUser() {
+            showLoader(true);
+            if (auth.currentUser) {
+                setUser(auth.currentUser);
+                const docRef = doc(usersRef, auth.currentUser.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.data()) {
+                    setUser(prevUser => ({ ...prevUser, ...docSnap.data() }));
+                }
             }
+            showLoader(false);
         }
-        showLoader(false);
+        getUser();
     }, [auth.currentUser]);
 
     function handleChange(event) {

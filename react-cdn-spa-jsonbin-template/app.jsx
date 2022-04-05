@@ -7,7 +7,7 @@ import * as UserService from "./services/UserService.js";
 function Users() {
     const [users, setUsers] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
         // setUsers(await UserService.getUsers());
     }, []);
 

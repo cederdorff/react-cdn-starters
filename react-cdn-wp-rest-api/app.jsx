@@ -8,11 +8,14 @@ function Posts() {
     const [posts, setPosts] = useState([]);
     const [searchValue, setSearchValue] = useState("");
 
-    useEffect(async () => {
-        const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?_embed";
-        const response = await fetch(url);
-        const data = await response.json();
-        setPosts(data);
+    useEffect(() => {
+        async function getPosts() {
+            const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?_embed";
+            const response = await fetch(url);
+            const data = await response.json();
+            setPosts(data);
+        }
+        getPosts();
     }, []);
 
     const filteredPosts = posts.filter(post => post.title.rendered.toLowerCase().includes(searchValue));
@@ -67,11 +70,14 @@ function SearchBar({ setValue }) {
 function Clients() {
     const [posts, setPosts] = useState([]);
 
-    useEffect(async () => {
-        const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?&categories=2&_embed";
-        const response = await fetch(url);
-        const data = await response.json();
-        setPosts(data);
+    useEffect(() => {
+        async function getPosts() {
+            const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?&categories=2&_embed";
+            const response = await fetch(url);
+            const data = await response.json();
+            setPosts(data);
+        }
+        getPosts();
     }, []);
 
     return (
@@ -91,11 +97,14 @@ function Clients() {
 function News() {
     const [posts, setPosts] = useState([]);
 
-    useEffect(async () => {
-        const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?&categories=1&_embed";
-        const response = await fetch(url);
-        const data = await response.json();
-        setPosts(data);
+    useEffect(() => {
+        async function getPosts() {
+            const url = "https://api.cederdorff.com/wp-json/wp/v2/posts?&categories=1&_embed";
+            const response = await fetch(url);
+            const data = await response.json();
+            setPosts(data);
+        }
+        getPosts();
     }, []);
 
     return (
@@ -117,11 +126,14 @@ function PostDetail() {
     const params = useParams();
     const postSlug = params.postSlug;
 
-    useEffect(async () => {
-        const url = `https://api.cederdorff.com/wp-json/wp/v2/posts?slug=${postSlug}&_embed`;
-        const response = await fetch(url);
-        const data = await response.json();
-        setPost(data[0]);
+    useEffect(() => {
+        async function getPost() {
+            const url = `https://api.cederdorff.com/wp-json/wp/v2/posts?slug=${postSlug}&_embed`;
+            const response = await fetch(url);
+            const data = await response.json();
+            setPost(data[0]);
+        }
+        getPost();
     }, [postSlug]);
 
     function getFeaturedImageUrl() {

@@ -9,11 +9,15 @@ import { HashRouter, Routes, Route, NavLink } from "https://cdn.skypack.dev/reac
 function UsersPage() {
     const [users, setUsers] = useState([]);
 
-    useEffect(async () => {
-        const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/users.json";
-        const response = await fetch(url);
-        const data = await response.json();
-        setUsers(data);
+    useEffect(() => {
+        async function getUsers() {
+            const url = "https://raw.githubusercontent.com/cederdorff/react-cdn-starters/main/data/users.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            setUsers(data);
+        }
+
+        getUsers();
     }, []);
 
     return (

@@ -56,11 +56,11 @@ function UpdatePage({ showLoader }) {
     const userId = params.userId;
 
     useEffect(() => {
-        const getUser = async () => {
+        async function getUser() {
             const docRef = doc(usersRef, userId);
             const docSnap = await getDoc(docRef);
             setUser(docSnap.data());
-        };
+        }
         getUser();
     }, [userId]);
 
@@ -110,7 +110,6 @@ function UserItem({ user }) {
 
 function UserForm({ user, handleSubmit }) {
     const [formData, setFormData] = useState({ name: "", mail: "", img: "" });
-    const imageRef = useRef();
 
     useEffect(() => {
         if (user) {
@@ -154,8 +153,12 @@ function UserForm({ user, handleSubmit }) {
         <form onSubmit={submitEvent}>
             <input type="text" value={formData.name} onChange={handleChange} name="name" placeholder="Type name" />
             <input type="email" value={formData.mail} onChange={handleChange} name="mail" placeholder="Type mail" />
-            <input type="file" className="file-input" accept="image/*" onChange={handleImageChange} name="img" ref={imageRef} />
-            <img className="image-preview" src={formData.img} alt="Choose" onClick={() => imageRef.current.click()} />
+
+            <label>
+                Image
+                <input type="file" className="file-input" accept="image/*" onChange={handleImageChange} />
+                <img className="image-preview" src={formData.img} alt="Choose" onError={event => (event.target.src = "img/user-placeholder.jpg")} />
+            </label>
             <button>Save User</button>
         </form>
     );
