@@ -1,5 +1,5 @@
 // React Imports
-import * as React from "https://cdn.skypack.dev/react";
+import React, { useState, useEffect, StrictMode } from "https://cdn.skypack.dev/react";
 import * as ReactDOM from "https://cdn.skypack.dev/react-dom";
 import { HashRouter, Routes, Route, NavLink, useNavigate, useParams } from "https://cdn.skypack.dev/react-router-dom";
 import { postsRef, usersRef } from "./firebase-config.js";
@@ -9,16 +9,19 @@ import { onSnapshot, doc, updateDoc, deleteDoc, addDoc, getDoc, serverTimestamp,
 
 // Posts Page (Home Page)
 function PostsPage() {
-    const [posts, setPosts] = React.useState([]);
+    const [posts, setPosts] = useState([]);
 
-    React.useEffect(async () => {
-        const q = query(postsRef, orderBy("createdAt", "desc"));
-        onSnapshot(q, data => {
-            const postsData = data.docs.map(doc => {
-                return { ...doc.data(), id: doc.id };
+    useEffect(() => {
+        async function getPosts() {
+            const q = query(postsRef, orderBy("createdAt", "desc"));
+            onSnapshot(q, data => {
+                const postsData = data.docs.map(doc => {
+                    return { ...doc.data(), id: doc.id };
+                });
+                setPosts(postsData);
             });
-            setPosts(postsData);
-        });
+        }
+        getPosts();
     }, []);
     return (
         <section className="page">
@@ -50,9 +53,9 @@ function CreatePage() {
 }
 
 function PostForm({ post, handleSubmit }) {
-    const [formData, setFormData] = React.useState({ title: "", body: "", image: "" });
+    const [formData, setFormData] = useState({ title: "", body: "", image: "" });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (post) {
             setFormData(post);
         } else {
@@ -88,15 +91,18 @@ function PostForm({ post, handleSubmit }) {
 }
 
 function UpdatePage() {
-    const [post, setPost] = React.useState({});
+    const [post, setPost] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const postId = params.postId;
     const docRef = doc(postsRef, postId);
 
-    React.useEffect(async () => {
-        const docSnap = await getDoc(docRef);
-        setPost(docSnap.data());
+    useEffect(() => {
+        async function getPost() {
+            const docSnap = await getDoc(docRef);
+            setPost(docSnap.data());
+        }
+        getPost();
     }, []);
 
     async function savePost(postToUpdate) {
@@ -145,16 +151,19 @@ function PostItem({ post }) {
 
 // ====== UserAvatar Component ====== //
 function UserAvatar({ uid }) {
-    const [user, setUser] = React.useState({
+    const [user, setUser] = useState({
         image: "./img/user-placeholder.jpg",
         name: "User's Name",
         title: "User's Title"
     });
 
-    React.useEffect(async () => {
-        const docRef = doc(usersRef, uid);
-        const docSnap = await getDoc(docRef);
-        setUser(docSnap.data());
+    useEffect(() => {
+        async function getUser() {
+            const docRef = doc(usersRef, uid);
+            const docSnap = await getDoc(docRef);
+            setUser(docSnap.data());
+        }
+        getUser();
     }, []);
 
     return (
@@ -198,10 +207,10 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <HashRouter>
             <App />
         </HashRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.querySelector("#root")
 );
