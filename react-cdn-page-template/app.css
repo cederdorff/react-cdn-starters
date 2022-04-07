@@ -57,6 +57,7 @@ nav {
     left: 0;
     right: 0;
     text-align: center;
+    grid-area: nav;
 }
 
 /* Style the links inside the navigation bar */
@@ -154,7 +155,8 @@ nav a.active {
 }
 
 /* Style the header */
-header {
+header,
+.header {
     grid-area: header;
     background-color: var(--green);
     color: var(--text-color-light);
@@ -189,7 +191,8 @@ header {
 }
 
 /* Style the footer */
-footer {
+footer,
+.footer {
     padding: 1em;
     grid-area: footer;
     text-align: center;
