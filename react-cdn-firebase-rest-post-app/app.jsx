@@ -22,10 +22,9 @@ function PostsPage() {
 
     return (
         <section className="page">
-            <h1>Posts</h1>
             <section className="grid-container">
                 {posts.map(post => (
-                    <PostItem post={post} key={post.id} />
+                    <PostCard post={post} key={post.id} />
                 ))}
             </section>
         </section>
@@ -147,7 +146,7 @@ function UpdatePage() {
 // ====== COMPONENTS ====== //
 
 // ====== Post List Component ====== //
-function PostItem({ post }) {
+function PostCard({ post }) {
     const navigate = useNavigate();
 
     function handleClick() {
