@@ -7,9 +7,9 @@ function Greeting({ name }) {
 
 function App() {
     return (
-        <>
-            <Greeting name="world" />
-        </>
+        <section>
+            <Greeting name="React" />
+        </section>
     );
 }
 

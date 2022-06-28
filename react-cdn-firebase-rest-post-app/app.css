@@ -5,6 +5,7 @@
     --light-grey: #f1f1f4;
     --text-color-light: #f1f1f1;
     --text-color-dark: #333;
+    --text-color-danger: rgb(152, 58, 58);
     --white: #f1f1f1;
 }
 
@@ -12,7 +13,8 @@ body {
     color: var(--text-color-dark);
     padding: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -23,6 +25,7 @@ code {
 
 main {
     padding: 58px 0 0;
+    background-color: var(--light-green);
 }
 
 h1 {
@@ -49,6 +52,17 @@ a {
     background-color: var(--light-green);
     min-height: calc(100vh - 58px - 2em);
     padding: 1em;
+}
+
+.text-center {
+    text-align: center;
+}
+.text-error {
+    color: var(--text-color-danger);
+}
+
+.text-error:first-letter {
+    text-transform: uppercase;
 }
 
 /* ---------- animations ---------- */
@@ -127,12 +141,15 @@ nav a.active {
 
 .grid-container > article {
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.25);
-    text-align: center;
     padding: 1.5em;
     background-color: var(--white);
     transition: 0.5s;
     animation: fadeIn 0.5s;
     cursor: pointer;
+}
+
+.grid-container > article ::first-letter {
+    text-transform: uppercase;
 }
 
 .grid-container > article:hover {
@@ -179,10 +196,19 @@ button {
     margin: 1em auto 0;
 }
 
-button.btn-delete {
+button.btn-outline {
     background-color: var(--light-green);
     color: var(--green);
     border: solid 2px var(--green);
+}
+
+.btn-sign-out {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 0.7em;
+    padding: 2.032em 1em;
 }
 
 input {
@@ -204,7 +230,6 @@ input {
     margin: auto;
     display: block;
     cursor: pointer;
-    background-image: url("./img/user-placeholder.jpg");
 }
 
 form .file-input {
